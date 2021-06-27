@@ -14,12 +14,9 @@ const renderGoodsItem = (title = 'title', price = 'price', imageNumber = 'noImg.
     </div>`;
 };
 
-const renderGoodsList = (list) => {
-    let goodsList = '';
-    list.forEach(item => {
-        goodsList += renderGoodsItem(item.title, item.price, item.imageNumber);
-    });
-    document.querySelector('.goods-list').innerHTML = goodsList;
+const renderGoodsList = (list = goods) => {
+    let goodsList = list.map(item => renderGoodsItem(item.title, item.price, item.imageNumber));
+    document.querySelector('.goods-list').innerHTML = goodsList.join('');
 }
 
 renderGoodsList(goods);
