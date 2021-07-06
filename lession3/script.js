@@ -93,15 +93,16 @@ class cartList {
         this.cartGoods = {};
     }
     addItem(id, name, price, amount) {
-        if (this.cartGoods.id[amount] == undefined) {
+        if (this.cartGoods[id] == undefined) {
             let item = [name, price, amount];
             this.cartGoods[id] = item;
             const newItem = new cartItem(id, name, price, amount = 1);
-
+            document.querySelector('.cart-menu').insertAdjacentHTML('afterbegin', newItem.render());
         } else {
-            this.cartGoods.id[amount] += 1;
+            this.cartGoods[id][2] += 1;
+            document.querySelector(`.item${id}-amount`).innerText = ` X ${this.cartGoods[id][2]}`;
         }
-        document.querySelector('.cart-menu').insertAdjacentHTML('afterbegin', newItem.render());
+
         document.querySelectorAll('.delete-cart-btn').forEach(button => {
             button.addEventListener('click', removeItem);
         });
@@ -114,7 +115,7 @@ class cartList {
     cartTotalPrice() {
         let totalPrice = 0;
         for (let key in this.cartGoods) {
-            totalPrice += +this.cartGoods[key][1];
+            totalPrice += +this.cartGoods[key][1] * this.cartGoods[key][2];
         }
         document.querySelector('.total-cart-price').innerText = totalPrice;
     }
@@ -126,13 +127,14 @@ class cartList {
 }
 
 class cartItem {
-    constructor(id, title, price) {
+    constructor(id, title, price, amount) {
         this.id = id;
         this.title = title;
         this.price = price;
+        this.amount = amount;
     }
     render() {
-        return `<div class="cart-item" data-id="${this.id}"><h3>${this.title}</h3><p>${this.price}</p><button class="delete-cart-btn">Удалить</button></div>`;
+        return `<div class="cart-item" data-id="${this.id}"><h3>${this.title}<span class="item${this.id}-amount"> X ${this.amount}</span></h3><p>${this.price}</p><button class="delete-cart-btn">Удалить</button></div>`;
     }
 }
 
