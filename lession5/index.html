@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>eShop</title>
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <input type="text" v-model='searchLine' class="goods-search" />
+            <!-- <button class="search-button" type="button" @click="filterGoods">Искать</button> -->
+            <button class="cart-button" type="button" @click='isVisibleCart = !isVisibleCart'>Корзина</button>
+        </header>
+        <main>
+            <div class="cart-list" v-show='isVisibleCart'>
+                <h2 v-if='cartProducts.length === 0'>Корзина пуста</h2>
+                <div v-else>
+                    <h2>Общая сумма товаров {{cartSum}} руб.</h2>
+                    <div class="good-item" v-for='(good,idx) in cartProducts'>
+                        <h3>{{good.product_name}}</h3>
+                        <p>Цена: {{good.price}}</p>
+                        <p>Количество: {{good.amount}}</p>
+                        <p>Общая сумма товара: {{good.amount * good.price}}</p>
+                        <button @click='deleteFromCart(idx)'>Удалить из корзины</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="goods-list">
+                <div class="goods-item" v-for="good in filteredGoods">
+                    <h3>{{ good.product_name }}</h3>
+                    <p>{{ good.price }}</p>
+                    <button @click='addToCart(good)'>В корзину</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
