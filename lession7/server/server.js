@@ -69,7 +69,7 @@ app.post('/api/cart', (req, res) => {
     //Запись о действии с товаром
     fs.writeFile('./db/stats.json', JSON.stringify(stats), (err) => {
       if (err) throw error; // если возникла ошибка
-      console.log("Асинхронная запись файла завершена. Содержимое файла:");
+      console.log("Асинхронная запись файла завершена.");
     })
   });
 });

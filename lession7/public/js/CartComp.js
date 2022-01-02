@@ -5,6 +5,7 @@ Vue.component('cart', {
             cartUrl: '/getBasket.json',
             cartItems: [],
             showCart: false,
+            cartSum: 0,
         }
     },
     methods: {
@@ -23,6 +24,7 @@ Vue.component('cart', {
                         }
                     });
             }
+            this.cartSum += product.price;
         },
         remove(item) {
             this.$parent.getJson(`${API}/deleteFromBasket.json`)
@@ -43,6 +45,7 @@ Vue.component('cart', {
                         }
                     }
                 })
+            this.cartSum -= item.price;
         },
     },
     mounted() {
@@ -51,6 +54,7 @@ Vue.component('cart', {
                 for (let el of data.contents) {
                     this.cartItems.push(el);
                 }
+                this.cartSum = data.countGoods;
             });
     },
     template: `
@@ -65,6 +69,7 @@ Vue.component('cart', {
                 :img="imgCart"
                 @remove="remove">
                 </cart-item>
+                <div v-if="cartItems.length">Общая сумма корзины: {{cartSum}}₽</div>
             </div>
         </div>`
 });
